@@ -16,4 +16,5 @@ LEGACY.md
 
 talosconfig
 
-microservices/prediction/.venv/*
+model/.venv/*
+model/src/model/__pycache__/*.pyc
