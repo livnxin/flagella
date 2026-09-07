@@ -3,9 +3,8 @@ Goal of this project
 This project is intended to be an MLOps project hosted in K8S as microservice
 
 Eventual goal is 
-- multi cloud multi cluster ML prediction service
+-  ML prediction service
 - A/B testing along with canary deployment
-- Security Hardening
 - Observability
 
 Roadmap
@@ -19,17 +18,11 @@ Stage 1
 
 Stage 2
 - Add frontend
-- Add another cluster and form cluster mesh
 - Add observability
 
 Stage 3
-- Security
 - Observability
 - ML analysis of telemetry and security data
-
-Stage 4 
-- Active IPS
-- Security Hardening
 
 Architectural Decision
 
