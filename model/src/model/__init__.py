@@ -2,6 +2,7 @@ from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 from keras import Sequential, layers
+from .hyperparameters import epochs, optimizer, loss
 
 
 def main() -> None:
@@ -22,7 +23,7 @@ def train() :
         layers.Dense(20, activation = 'relu'),
         layers.Dense(1)
     ])
-    model.compile(loss='mean_squared_error', optimizer='adam')
-    model.fit(Xtrain, ytrain, validation_data=(Xval, yval), epochs=20)
+    model.compile(loss=loss, optimizer=optimizer)
+    model.fit(Xtrain, ytrain, validation_data=(Xval, yval), epochs=epochs)
     mse_test = model.evaluate(Xtest, ytest)
     print("The mean square error is ", mse_test)
