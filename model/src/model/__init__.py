@@ -1,7 +1,7 @@
 from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
-from keras import Sequential
+from keras import Sequential, layers
 
 
 def main() -> None:
@@ -18,11 +18,11 @@ def train() :
     Xtest = transformer.transform(Xtest)
     Xval = transformer.transform(Xval)
     model = Sequential([
-        Dense(30, activation = 'relu', input_shape= Xtrain.shape[1:]),
-        Dense(20, activation = 'relu'),
-        Dense(1)
+        layers.Dense(30, activation = 'relu', input_shape= Xtrain.shape[1:]),
+        layers.Dense(20, activation = 'relu'),
+        layers.Dense(1)
     ])
     model.compile(loss='mean_squared_error', optimizer='adam')
     model.fit(Xtrain, ytrain, validation_data=(Xval, yval), epochs=20)
     mse_test = model.evaluate(Xtest, ytest)
-    print("The mean square error is ", mse)
+    print("The mean square error is ", mse_test)
