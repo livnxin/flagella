@@ -18,3 +18,5 @@ talosconfig
 
 model/.venv/*
 model/src/model/__pycache__/*.pyc
+model/mlflow.db
+model/mlruns/*
