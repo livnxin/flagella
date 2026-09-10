@@ -45,7 +45,9 @@ def train():
 
     with mlflow.start_run() as cur_run:
         signature = mlflow.models.infer_signature(Xtrain, model.predict(Xtrain))
-        model_info = mlflow.tensorflow.log_model(model, name="model", signature=signature)
+        model_info = mlflow.tensorflow.log_model(
+            model, name="model", signature=signature
+        )
         artifact_location = mlflow.artifacts.download_artifacts(
             artifact_uri=model_info.model_uri
         )
@@ -54,7 +56,16 @@ def train():
 
 def pack(artifact_location):
     creds = UserCredentials(registry="jozu.ml")
-    manager = ModelKitManager(working_directory=artifact_location, user_credentials=creds, modelkit_tag=modelkit_tag)
+    manager = ModelKitManager(
+        working_directory=artifact_location,
+        user_credentials=creds,
+        modelkit_tag=modelkit_tag,
+    )
     manager.login()
-    kit.init(directory=artifact_location, name="acephale", description=JOZU_DESCRIPTION, author=JOZU_AUTHOR)
+    kit.init(
+        directory=artifact_location,
+        name="acephale",
+        description=JOZU_DESCRIPTION,
+        author=JOZU_AUTHOR,
+    )
     manager.pack_and_push_modelkit(with_login_and_logout=True)
