@@ -1,0 +1,4 @@
+*.pyc
+*.keras
+.ruff_cache/*
+.venv/*
