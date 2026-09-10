@@ -8,6 +8,7 @@ import pandas as pd
 from kitops.modelkit.manager import ModelKitManager
 from kitops.modelkit.user import UserCredentials
 from kitops.cli import kit
+from .variables import *
 
 
 def main() -> None:
@@ -26,12 +27,6 @@ def prepare():
     Xtrain = transformer.fit_transform(Xtrain)
     Xtest = transformer.transform(Xtest)
     Xval = transformer.transform(Xval)
-
-    # Convert evaluation features to DataFrame here
-    # Xtest = pd.DataFrame(
-    #     Xtest,
-    #     columns=housing.feature_names,
-    # )
     return (Xtrain, Xtest, Xval, ytrain, ytest, yval)
 
 
@@ -57,17 +52,9 @@ def train():
         pack(artifact_location)
 
 
-    mse_test = model.evaluate(Xtest, ytest)
-    print("The mean square error is ", mse_test)
-
-    # artifact_location = mlflow.artifacts.download_artifacts(cur_run.info.run_id)
-    # pack(artifact_location)
-
-
 def pack(artifact_location):
-    modelkit_tag = "jozu.ml/livnxin/acephale:latest"  
     creds = UserCredentials(registry="jozu.ml")
     manager = ModelKitManager(working_directory=artifact_location, user_credentials=creds, modelkit_tag=modelkit_tag)
     manager.login()
-    kit.init(directory=artifact_location, name="acephale", description="my cool project", author="livnxin")
-    manager.pack_and_push_modelkit(with_login_and_logout=False)
+    kit.init(directory=artifact_location, name="acephale", description=JOZU_DESCRIPTION, author=JOZU_AUTHOR)
+    manager.pack_and_push_modelkit(with_login_and_logout=True)
