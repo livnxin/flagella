@@ -1,6 +1,12 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from keras.saving import load_model
+from utils import predict
 
+print("Initializing prediction service")
+print("Loading model")
+model = load_model("./artifact/model.keras")
+print("Model loaded")
 app = FastAPI()
 
 
@@ -20,7 +26,7 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.post("prediction")
+@app.post("/prediction")
 def read_item(input: Input):
-    output = predict(input)
+    output = predict(model, input)
     return {"price": output}

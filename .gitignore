@@ -17,8 +17,8 @@ LEGACY.md
 talosconfig
 
 model/.venv/*
-model/src/model/__pycache__/*.pyc
 model/mlflow.db
 model/mlruns/*
 *.env
 *.keras
+*.pyc
