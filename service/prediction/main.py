@@ -8,7 +8,13 @@ print("Initializing prediction service")
 print("Loading model")
 model = load_model("./artifact/model.keras")
 print("Model loaded")
+
 app = FastAPI()
+Instrumentator().instrument(app).expose(app)
+from prometheus_client import make_asgi_app
+
+metrics_app = make_asgi_app()
+app.mount("/metrics", metrics_app)
 
 
 class Input(BaseModel):
