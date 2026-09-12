@@ -3,7 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn import preprocessing
 from keras import Sequential, layers
 import mlflow
-from .hyperparameters import epochs, optimizer, loss
+from .hyperparameters import epochs, optimizer, loss, layer_weights
 import pandas as pd
 from kitops.modelkit.manager import ModelKitManager
 from kitops.modelkit.user import UserCredentials
@@ -43,9 +43,10 @@ def train():
             [
                 layers.Input(shape=(Xtrain.shape[1],)),
                 normalizer,
-                layers.Dense(50, activation="relu"),
-                layers.Dense(40, activation="relu"),
-                layers.Dense(30, activation="relu"),
+                *[
+                    layers.Dense(width, activation="relu")
+                    for width in layer_weights
+                ],
                 layers.Dense(1),
             ]
         )
