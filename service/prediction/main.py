@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from keras.saving import load_model
 from utils import predict
+from prometheus_fastapi_instrumentator import Instrumentator
 
 print("Initializing prediction service")
 print("Loading model")
