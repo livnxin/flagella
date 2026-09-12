@@ -43,10 +43,7 @@ def train():
             [
                 layers.Input(shape=(Xtrain.shape[1],)),
                 normalizer,
-                *[
-                    layers.Dense(width, activation="relu")
-                    for width in layer_weights
-                ],
+                *[layers.Dense(width, activation="relu") for width in layer_weights],
                 layers.Dense(1),
             ]
         )
@@ -60,7 +57,7 @@ def train():
             artifact_uri=model_info.model_uri
         )
         mse = model.evaluate(Xtest, ytest)
-        print("The error of the model is" , mse)
+        print("The error of the model is", mse)
         pack(artifact_location)
 
 
