@@ -1,5 +1,6 @@
 import numpy as np
 import tensorflow as tf
+import main
 
 FEATURE_ORDER = [
     "MedInc",
@@ -13,6 +14,7 @@ FEATURE_ORDER = [
 ]
 
 
+@tracer.start_as_current_span("prediction_service")
 def to_tensor(payload) -> tf.Tensor:
     d = payload.model_dump()
     x = np.array([[d[k] for k in FEATURE_ORDER]], dtype=np.float64)
