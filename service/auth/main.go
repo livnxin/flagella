@@ -2,15 +2,14 @@ package main
 
 import (
 	"crypto/rsa"
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/golang-jwt/jwt/v5/request"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 type User struct {
@@ -57,36 +56,14 @@ func main() {
 		log.Fatal(err)
 	}
 
+	initProm()
+
 	mux := http.NewServeMux()
 	fmt.Println("starting http server")
-	mux.HandleFunc("/login", handleLogin)
+	mux.Handle("/login", handlewithMetrics(http.HandlerFunc(handleLogin), "login"))
+	mux.Handle("/metrics", promhttp.Handler())
 
 	log.Fatal(http.ListenAndServe(":8080", mux))
-}
-
-func handleLogin(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "POST" {
-		w.WriteHeader(http.StatusBadRequest)
-		_, _ = fmt.Fprintln(w, "No POST", r.Method)
-		return
-	}
-	var u User
-	err := json.NewDecoder(r.Body).Decode(&u)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-	if u.Username != "test" || u.Password != "foobar" {
-		w.WriteHeader(http.StatusForbidden)
-		fmt.Fprintln(w, "Wrong info")
-		log.Printf("Unauthorized login attempt")
-		return
-	}
-	tokenstring, err := createToken(u.Username)
-
-	w.Header().Set("Content-Type", "application/jwt")
-	w.WriteHeader(http.StatusOK)
-	_, _ = fmt.Fprintln(w, tokenstring)
 }
 
 func handleVerifyJWT(w http.ResponseWriter, r *http.Request) {
@@ -103,18 +80,4 @@ func handleVerifyJWT(w http.ResponseWriter, r *http.Request) {
 
 	_, _ = fmt.Fprintln(w, "Welcome,", token.Claims.(*MyCustomClaims).username)
 
-}
-
-func createToken(user string) (string, error) {
-
-	t := jwt.New(jwt.GetSigningMethod("RS256"))
-
-	t.Claims = &MyCustomClaims{
-		user,
-		jwt.RegisteredClaims{
-
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute * 30)),
-		},
-	}
-	return t.SignedString(signKey)
 }
