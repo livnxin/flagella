@@ -22,3 +22,4 @@ model/mlruns/*
 *.env
 *.keras
 *.pyc
+*.pem
