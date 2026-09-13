@@ -2,30 +2,12 @@ Goal of this project
 
 This project is intended to be an MLOps project hosted in K8S as microservice
 
-Eventual goal is 
--  ML prediction service
-- A/B testing along with canary deployment
-- Observability
-
-Roadmap
-
-Stage 1 
-
-- Deploy a single k8s cluster on AWS
-- A/B testing of two models
-- storage of prediction result and metadata in S3 as data lake
-- Basic Security with Layer 4 Security Group to comply with the principle of least privilege. Only open ports when necessary and only to the right connection
-
-Stage 2
-- Add frontend
-- Add observability
-
-Stage 3
-- Observability
-- ML analysis of telemetry and security data
-
 Architectural Decision
 
 - Why cillium? layer 7 aware network policy, cluster mesh, integration with Hubble, eBPF networking that is better than Iptables
 
 - Why talos? Immutable linux distro designed for Kubernetes
+
+- Why Clickhouse? Because its an OLAP database with BASE instead of ACID and I believe that BASE is more suitable for the scalability of the type of data I am handling
+
+- Why alloy? Because Alloy is a OTLP Collector that integrates well with the rest of grafana stack and unify the various telemtry collector into one application, thus lowering application footprint
