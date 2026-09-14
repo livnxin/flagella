@@ -6,7 +6,7 @@ resource "aws_instance" "controlplane" {
   vpc_security_group_ids = [local.control_group_id]
 
   root_block_device {
-    volume_size = 20 # well within the 30GB free-tier EBS allowance
+    volume_size = 20 
     volume_type = "gp3"
   }
 
@@ -15,10 +15,6 @@ resource "aws_instance" "controlplane" {
     Role = "controlplane"
   }
 }
-
-# --- Optional worker nodes ---------------------------------------------
-# count = 0 by default (see root variables.tf). Scale up temporarily
-# only while actively demoing, then back to 0.
 
 resource "aws_instance" "worker" {
   count = var.worker_count
@@ -32,6 +28,14 @@ resource "aws_instance" "worker" {
   root_block_device {
     volume_size = 20
     volume_type = "gp3"
+  }
+
+  instance_market_options {
+    market_type = "spot"
+    spot_options {
+      instance_interruption_behavior = "hibernate"
+      spot_instance_type = "persistent"
+    }
   }
 
   tags = {

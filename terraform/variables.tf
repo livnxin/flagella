@@ -46,10 +46,5 @@ variable "ssh_ingress_cidr6" {
 variable "worker_count" {
   description = "Number of additional worker nodes beyond the single control-plane node. Keep at 0 unless actively demo due to budget cons"
   type        = number
-  default     = 0
-
-  # validation {
-  #   condition     = var.worker_count <= 2
-  #   error_message = "Keep worker_count at 2 or fewer to keep cost down"
-  # }
+  default     = 3
 }
