@@ -1,6 +1,7 @@
 name: Build and Publish Prediction Container
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
