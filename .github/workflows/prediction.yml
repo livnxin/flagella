@@ -6,8 +6,8 @@ on:
     branches:
       - main
     path:
-      - "services/prediction/**" 
-      - "services/prediction/Dockerfile"
+      - "service/prediction/**" 
+      - "service/prediction/Dockerfile"
 
 permissions:
   contents: read
@@ -15,8 +15,7 @@ permissions:
   id-token: write
 
 env:
-  REGISTRY: quay.io
-  IMAGE_NAME: flagella-prediction
+  IMAGE_NAME: flagella/prediction
 
 jobs:
   build-and-push:
@@ -27,7 +26,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           sparse-checkout: |
-            services/prediction
+            service/prediction
           sparse-checkout-cone-mode: true
 
       - name: Set up QEMU
@@ -36,18 +35,17 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
 
-      - name: Log in to Quay.io
+      - name: Log in to Dockerhub
         uses: docker/login-action@v4
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.QUAY_USERNAME }}
-          password: ${{ secrets.QUAY_PASSWORD }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Generate image metadata
         id: meta
         uses: docker/metadata-action@v6
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.IMAGE_NAME }}
           tags: |
             type=raw,value=latest
             type=sha
@@ -55,8 +53,8 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v7
         with:
-          context: services/prediction
-          file: services/prediction/Dockerfile
+          context: service/prediction
+          file: service/prediction/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
 
