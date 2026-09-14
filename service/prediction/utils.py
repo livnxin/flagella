@@ -1,6 +1,7 @@
 import numpy as np
 import tensorflow as tf
-import main
+
+from tracing import tracer
 
 FEATURE_ORDER = [
     "MedInc",
