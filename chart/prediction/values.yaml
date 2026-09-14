@@ -89,3 +89,12 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+initContainers:
+  - name: kitops-init-prediction
+    image: ghcr.io/kitops-ml/kitops-init:latest
+    env:
+      - name: MODELKIT_REF
+        value: "your-jozu-hub/your-model:latest
+      - name: UNPACK_PATH
+        value: "/modelkit"
