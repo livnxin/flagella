@@ -75,17 +75,14 @@ readinessProbe:
     port: http
 
 # Additional volumes on the output Deployment definition.
-volumes: []
-  # - name: foo
-  #   secret:
-  #     secretName: mysecret
-  #     optional: false
+volumes:
+  - name: modelkit-storage
+    emptyDir: {}
 
 # Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
-  # - name: foo
-  #   mountPath: "/etc/foo"
-  #   readOnly: true
+volumeMounts:
+    - name: modelkit-storage
+      mountPath: "/modelkit"
 
 nodeSelector: {}
 
