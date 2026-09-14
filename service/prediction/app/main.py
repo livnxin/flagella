@@ -1,14 +1,14 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from keras.saving import load_model
-from utils import predict
+from service.prediction.app.utils import predict
 from prometheus_fastapi_instrumentator import Instrumentator
 from prometheus_client import make_asgi_app
-from tracing import tracer
+from service.prediction.app.tracing import tracer
 
 print("Initializing prediction service")
 print("Loading model")
-model = load_model("./artifact/model.keras")
+model = load_model("./modelkit/data/model.keras")
 print("Model loaded")
 
 app = FastAPI()

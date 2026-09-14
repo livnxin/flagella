@@ -1,18 +1,19 @@
-FROM ghcr.io/astral-sh/uv:0.12-python3.13-alpine AS builder
+FROM ghcr.io/astral-sh/uv:python3.13-trixie AS builder
 
 # Set the working directory
 WORKDIR /code
 
 # Enable bytecode compilation for faster application startup
+ENV UV_NO_DEV=1
 ENV UV_COMPILE_BYTECODE=1
 
 # Copy only the files needed for dependency installation to leverage cache
-COPY uv.lock pyproject.toml /code/
+COPY uv.lock pyproject.toml .python-version /code/
 
 # Install dependencies into a virtual environment at /code/.venv
 # --frozen ensures uv respects the exact versions in your uv.lock file
 RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-dev --no-install-project
+    uv sync --frozen --no-dev --no-install-project 
 
 # ==========================================
 # 2. Production Stage: Run the actual app
