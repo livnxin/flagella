@@ -4,7 +4,6 @@ from opentelemetry.sdk.trace.export import (
     BatchSpanProcessor,
     ConsoleSpanExporter,
 )
-from opentelemetry.semconv.trace import SpanAttributes
 
 def tracerInit() :
 
