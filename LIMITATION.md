@@ -1,0 +1,3 @@
+This project uses a single control plane. For production ready, ideally the control plane should be at least three and is behind cloud Load Balancer or HA Proxy with keepalived and VIP
+
+This project uses grafana cloud free tier. For production I will recommend either using paid tier Grafana or self host LGTM stack with S3 storage backend. Also a scraping interval of 60 seconds is used to lessen the telemetry load.
