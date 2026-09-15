@@ -6,8 +6,8 @@ on:
     branches:
       - main
     path:
-      - "service/prediction/**" 
-      - "service/prediction/Dockerfile"
+      - 'service/prediction/**'
+      - 'service/prediction/Dockerfile'
 
 permissions:
   contents: read
