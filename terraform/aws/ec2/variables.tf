@@ -38,3 +38,7 @@ variable "worker_count" {
   type    = number
   default = 0
 }
+
+variable "talos_worker_config" {
+  
+}

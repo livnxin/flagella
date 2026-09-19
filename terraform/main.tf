@@ -46,6 +46,8 @@ module "ec2" {
   ssh_key_name  = var.ssh_key_name
   worker_count  = var.worker_count
 
+  talos_worker_config = module.talos.talos_worker_config
+
   depends_on = [module.vpc]
 }
 
