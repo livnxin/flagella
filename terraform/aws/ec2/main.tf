@@ -23,7 +23,7 @@ resource "aws_autoscaling_group" "talos_workers" {
   desired_capacity = var.autoscaling_desired_capacity
   max_size         = var.autoscaling_max_size
 
-  vpc_zone_identifier = [local.worker_group_id, local.cillium_group_id]
+  vpc_zone_identifier = [var.worker_subnet_id]
 
   capacity_rebalance = true
 
@@ -60,7 +60,7 @@ resource "aws_launch_template" "talos_worker" {
 
   network_interfaces {
     security_groups = [
-      aws_security_group.talos_worker.id
+      local.control_group_id, local.cillium_group_id
     ]
   }
 

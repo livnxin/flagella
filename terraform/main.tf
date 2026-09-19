@@ -17,10 +17,7 @@ provider "aws" {
 module "talos" {
   source = "./aws/talos"
 
-  worker_ips      = module.ec2.worker_public_ips
   controlplane_ip = module.ec2.controlplane_public_ip
-
-  depends_on = [module.ec2]
 
 }
 
