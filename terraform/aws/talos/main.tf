@@ -31,9 +31,9 @@ resource "talos_machine_secrets" "aws_machine_secret" {
 
 
 data "talos_client_configuration" "this" {
-  cluster_name    = var.cluster_name
-  nodes           = [var.controlplane_ip]
-  endpoints = [var.controlplane_ip]
+  cluster_name         = var.cluster_name
+  nodes                = [var.controlplane_ip]
+  endpoints            = [var.controlplane_ip]
   client_configuration = talos_machine_secrets.aws_machine_secret.client_configuration
 }
 
@@ -43,9 +43,9 @@ data "talos_machine_configuration" "control" {
   machine_secrets  = talos_machine_secrets.aws_machine_secret.machine_secrets
 
   talos_version = "v1.13.7"
-  machine_type     = "controlplane"
-  examples         = false
-  docs             = false
+  machine_type  = "controlplane"
+  examples      = false
+  docs          = false
   config_patches = concat(
     [for c in local.common_machine_configs : yamlencode(c)],
     [
@@ -77,7 +77,7 @@ data "talos_machine_configuration" "worker" {
   cluster_name     = var.cluster_name
   cluster_endpoint = local.cluster_endpoint
   machine_secrets  = talos_machine_secrets.aws_machine_secret.machine_secrets
-  talos_version = "v1.13.7"
+  talos_version    = "v1.13.7"
   machine_type     = "worker"
   examples         = false
   docs             = false
@@ -100,7 +100,7 @@ resource "talos_machine_bootstrap" "control" {
   depends_on = [
     talos_machine_configuration_apply.control
   ]
-  endpoint = var.controlplane_ip
+  endpoint             = var.controlplane_ip
   node                 = var.controlplane_ip
   client_configuration = data.talos_client_configuration.this.client_configuration
 }

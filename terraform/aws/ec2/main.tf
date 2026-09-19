@@ -6,7 +6,7 @@ resource "aws_instance" "controlplane" {
   vpc_security_group_ids = [local.control_group_id, local.cillium_group_id]
 
   root_block_device {
-    volume_size = 20 
+    volume_size = 20
     volume_type = "gp3"
   }
 
@@ -31,7 +31,7 @@ resource "aws_autoscaling_group" "talos_workers" {
     instances_distribution {
       on_demand_base_capacity                  = 0
       on_demand_percentage_above_base_capacity = 0
-      spot_allocation_strategy                  = "price-capacity-optimized"
+      spot_allocation_strategy                 = "price-capacity-optimized"
     }
 
     launch_template {

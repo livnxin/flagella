@@ -20,7 +20,7 @@ module "talos" {
   worker_ips      = module.ec2.worker_public_ips
   controlplane_ip = module.ec2.controlplane_public_ip
 
-  depends_on = [ module.ec2 ]
+  depends_on = [module.ec2]
 
 }
 
@@ -52,6 +52,6 @@ module "ec2" {
 }
 
 output "talos_client" {
-  value = module.talos.talos_client
+  value     = module.talos.talos_client
   sensitive = true
 }

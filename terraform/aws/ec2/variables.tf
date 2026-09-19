@@ -19,7 +19,7 @@ variable "ssh_ingress_cidr" {
 }
 
 variable "ssh_ingress_cidr6" {
-  type        = string
+  type = string
 }
 
 variable "instance_type" {
@@ -40,5 +40,5 @@ variable "worker_count" {
 }
 
 variable "talos_worker_config" {
-  
+
 }
