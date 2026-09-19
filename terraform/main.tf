@@ -44,9 +44,15 @@ module "ec2" {
   instance_type = var.aws_instance_type
   talos_ami_id  = var.talos_ami_id
   ssh_key_name  = var.ssh_key_name
-  worker_count  = var.worker_count
 
   talos_worker_config = module.talos.talos_worker_config
+
+  autoscaling_on_demand_percentage = var.autoscaling_on_demand_percentage
+  autoscaling_base_on_demand       = var.autoscaling_base_on_demand
+
+  autoscaling_min_size         = var.autoscaling_min_size
+  autoscaling_max_size         = var.autoscaling_max_size
+  autoscaling_desired_capacity = var.autoscaling_desired_capacity
 
   depends_on = [module.vpc]
 }

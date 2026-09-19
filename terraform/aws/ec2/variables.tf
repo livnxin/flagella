@@ -34,11 +34,30 @@ variable "ssh_key_name" {
   type = string
 }
 
-variable "worker_count" {
+variable "autoscaling_min_size" {
+  type    = number
+  default = 1
+}
+
+variable "autoscaling_max_size" {
+  type    = number
+  default = 2
+}
+
+variable "autoscaling_desired_capacity" {
+  type    = number
+  default = 1
+}
+
+variable "autoscaling_base_on_demand" {
+  type    = number
+  default = 0
+}
+
+variable "autoscaling_on_demand_percentage" {
   type    = number
   default = 0
 }
 
 variable "talos_worker_config" {
-
 }

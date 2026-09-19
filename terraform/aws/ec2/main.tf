@@ -19,9 +19,9 @@ resource "aws_instance" "controlplane" {
 resource "aws_autoscaling_group" "talos_workers" {
   name = "talos-workers"
 
-  min_size         = 1
-  desired_capacity = 1
-  max_size         = 2
+  min_size         = var.autoscaling_min_size
+  desired_capacity = var.autoscaling_desired_capacity
+  max_size         = var.autoscaling_max_size
 
   vpc_zone_identifier = [local.worker_group_id, local.cillium_group_id]
 
@@ -29,8 +29,8 @@ resource "aws_autoscaling_group" "talos_workers" {
 
   mixed_instances_policy {
     instances_distribution {
-      on_demand_base_capacity                  = 0
-      on_demand_percentage_above_base_capacity = 0
+      on_demand_base_capacity                  = var.autoscaling_base_on_demand
+      on_demand_percentage_above_base_capacity = var.autoscaling_on_demand_percentage
       spot_allocation_strategy                 = "price-capacity-optimized"
     }
 
