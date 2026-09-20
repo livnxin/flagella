@@ -18,6 +18,15 @@ terraform {
 provider "aws" {
 }
 
+provider "kubernetes" {
+  host = module.talos.cluster_host
+
+  client_certificate     = base64decode(module.talos.cluster_kubeconfig.client_certificate)
+  client_key             = base64decode(module.talos.cluster_kubeconfig.client_key)
+  cluster_ca_certificate = base64decode(module.talos.cluster_kubeconfig.ca_certificate)
+
+}
+
 provider "flux" {
   kubernetes = {
     host                   = module.talos.cluster_host
@@ -40,6 +49,12 @@ module "talos" {
   controlplane_ip         = module.ec2.controlplane_public_ip
   controlplane_private_ip = module.ec2.controlplane_private_ip
 
+}
+
+module "cloudflare" {
+  source = "./kubernetes/cloudflare"
+
+  cloudlfare_tunnel_token = var.cloudlfare_tunnel_token
 }
 
 module "vpc" {

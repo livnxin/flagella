@@ -79,3 +79,7 @@ variable "github_repository" {
 variable "github_org" {
   default = "livnxin"
 }
+
+variable "cloudlfare_tunnel_token" {
+  sensitive = true
+}
