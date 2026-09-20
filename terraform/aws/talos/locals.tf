@@ -1,6 +1,6 @@
 locals {
-  kube_prism_port  = 7445
-  cluster_endpoint = "https://${var.controlplane_ip}:6443"
+  kube_prism_port           = 7445
+  cluster_endpoint          = "https://${var.controlplane_ip}:6443"
   cluster_internal_endpoint = "https://${var.controlplane_private_ip}:6443"
   common_machine_configs = [
     {

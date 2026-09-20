@@ -83,7 +83,7 @@ data "talos_machine_configuration" "worker" {
   docs             = false
   config_patches   = [for c in local.common_machine_configs : yamlencode(c)]
 
-  depends_on = [ talos_machine_bootstrap.control ]
+  depends_on = [talos_machine_bootstrap.control]
 }
 
 

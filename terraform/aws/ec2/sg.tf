@@ -195,27 +195,27 @@ resource "aws_vpc_security_group_ingress_rule" "worker_kubelet_control" {
   security_group_id = local.worker_group_id
 
   referenced_security_group_id = local.control_group_id
-  from_port   = 10250
-  ip_protocol = "tcp"
-  to_port     = 10250
+  from_port                    = 10250
+  ip_protocol                  = "tcp"
+  to_port                      = 10250
 }
 
 resource "aws_vpc_security_group_ingress_rule" "worker_kubelet_self" {
   security_group_id = local.worker_group_id
 
   referenced_security_group_id = local.worker_group_id
-  from_port   = 10250
-  ip_protocol = "tcp"
-  to_port     = 10250
+  from_port                    = 10250
+  ip_protocol                  = "tcp"
+  to_port                      = 10250
 }
 
 resource "aws_vpc_security_group_ingress_rule" "worker_apid" {
   security_group_id = local.worker_group_id
 
   referenced_security_group_id = local.control_group_id
-  from_port   = 50000
-  ip_protocol = "tcp"
-  to_port     = 50000
+  from_port                    = 50000
+  ip_protocol                  = "tcp"
+  to_port                      = 50000
 }
 
 resource "aws_vpc_security_group_ingress_rule" "kubeprism_worker" {
@@ -231,24 +231,24 @@ resource "aws_vpc_security_group_egress_rule" "worker_trustd" {
   security_group_id = local.worker_group_id
 
   referenced_security_group_id = local.control_group_id
-  from_port   = 50001
-  ip_protocol = "tcp"
-  to_port     = 50001
+  from_port                    = 50001
+  ip_protocol                  = "tcp"
+  to_port                      = 50001
 }
 
 resource "aws_vpc_security_group_egress_rule" "worker_kube_apiserver" {
   security_group_id = local.worker_group_id
 
   referenced_security_group_id = local.control_group_id
-  from_port   = 6443
-  ip_protocol = "tcp"
-  to_port     = 6443
+  from_port                    = 6443
+  ip_protocol                  = "tcp"
+  to_port                      = 6443
 }
 
 resource "aws_vpc_security_group_egress_rule" "worker_ntp" {
   security_group_id = local.worker_group_id
 
-  cidr_ipv4 = "0.0.0.0/0"
+  cidr_ipv4   = "0.0.0.0/0"
   from_port   = 123
   ip_protocol = "udp"
   to_port     = 123
@@ -257,7 +257,7 @@ resource "aws_vpc_security_group_egress_rule" "worker_ntp" {
 resource "aws_vpc_security_group_egress_rule" "worker_https_egress" {
   security_group_id = local.worker_group_id
 
-  cidr_ipv4 = "0.0.0.0/0"
+  cidr_ipv4   = "0.0.0.0/0"
   from_port   = 443
   ip_protocol = "tcp"
   to_port     = 443

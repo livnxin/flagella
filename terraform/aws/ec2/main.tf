@@ -48,7 +48,7 @@ resource "aws_autoscaling_group" "talos_workers" {
 }
 
 resource "aws_launch_template" "talos_worker" {
-  name_prefix = "talos-worker-"
+  name_prefix            = "talos-worker-"
   update_default_version = true
 
   image_id = var.talos_ami_id
