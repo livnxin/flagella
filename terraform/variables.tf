@@ -67,3 +67,15 @@ variable "autoscaling_on_demand_percentage" {
   type    = number
   default = 0
 }
+
+variable "github_token" {
+  sensitive = true
+}
+
+variable "github_repository" {
+  default = "flagella"
+}
+
+variable "github_org" {
+  default = "livnxin"
+}
