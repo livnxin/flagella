@@ -75,13 +75,15 @@ data "talos_machine_configuration" "control" {
 // see https://registry.terraform.io/providers/siderolabs/talos/0.11.0/docs/data-sources/machine_configuration
 data "talos_machine_configuration" "worker" {
   cluster_name     = var.cluster_name
-  cluster_endpoint = local.cluster_endpoint
+  cluster_endpoint = local.cluster_internal_endpoint
   machine_secrets  = talos_machine_secrets.aws_machine_secret.machine_secrets
   talos_version    = "v1.13.7"
   machine_type     = "worker"
   examples         = false
   docs             = false
   config_patches   = [for c in local.common_machine_configs : yamlencode(c)]
+
+  depends_on = [ talos_machine_bootstrap.control ]
 }
 
 
@@ -103,4 +105,12 @@ resource "talos_machine_bootstrap" "control" {
   endpoint             = var.controlplane_ip
   node                 = var.controlplane_ip
   client_configuration = data.talos_client_configuration.this.client_configuration
+}
+
+data "talos_cluster_kubeconfig" "this" {
+  depends_on = [
+    talos_machine_bootstrap.control
+  ]
+  client_configuration = data.talos_client_configuration.this.client_configuration
+  node                 = var.controlplane_ip
 }

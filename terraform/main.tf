@@ -18,6 +18,7 @@ module "talos" {
   source = "./aws/talos"
 
   controlplane_ip = module.ec2.controlplane_public_ip
+  controlplane_private_ip = module.ec2.controlplane_private_ip
 
 }
 
@@ -56,5 +57,10 @@ module "ec2" {
 
 output "talos_client" {
   value     = module.talos.talos_client
+  sensitive = true
+}
+
+output "kubeconfig" {
+  value = module.talos.kubeconfig
   sensitive = true
 }

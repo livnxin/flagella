@@ -19,7 +19,7 @@ variable "aws_vpc_cidr" {
 variable "aws_instance_type" {
   description = "EC2 instance type."
   type        = string
-  default     = "c7i-flex.large"
+  default     = "t3.small"
 }
 
 variable "talos_ami_id" {

@@ -49,6 +49,7 @@ resource "aws_autoscaling_group" "talos_workers" {
 
 resource "aws_launch_template" "talos_worker" {
   name_prefix = "talos-worker-"
+  update_default_version = true
 
   image_id = var.talos_ami_id
 
@@ -59,8 +60,9 @@ resource "aws_launch_template" "talos_worker" {
   instance_type = "t3.small"
 
   network_interfaces {
+    associate_public_ip_address = true
     security_groups = [
-      local.control_group_id, local.cillium_group_id
+      local.worker_group_id, local.cillium_group_id
     ]
   }
 

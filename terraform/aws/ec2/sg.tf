@@ -41,8 +41,6 @@ resource "aws_vpc_security_group_egress_rule" "egress_all" {
   ip_protocol = "-1"
 }
 
-
-
 resource "aws_vpc_security_group_ingress_rule" "kubelet" {
   security_group_id = local.control_group_id
 
@@ -92,6 +90,15 @@ resource "aws_vpc_security_group_ingress_rule" "kube-apiserver_self" {
   security_group_id = local.control_group_id
 
   referenced_security_group_id = local.control_group_id
+  from_port                    = 6443
+  ip_protocol                  = "tcp"
+  to_port                      = 6443
+}
+
+resource "aws_vpc_security_group_ingress_rule" "kube-apiserver_worker" {
+  security_group_id = local.control_group_id
+
+  referenced_security_group_id = local.worker_group_id
   from_port                    = 6443
   ip_protocol                  = "tcp"
   to_port                      = 6443
@@ -183,6 +190,78 @@ resource "aws_vpc_security_group_ingress_rule" "apid_master6" {
   description = "Talos apid to provide for Talosctl access. Based on v1.13 documentation https://docs.siderolabs.com/talos/v1.13/learn-more/talos-network-connectivity"
 }
 ## Worker Plane Security Group ##
+
+resource "aws_vpc_security_group_ingress_rule" "worker_kubelet_control" {
+  security_group_id = local.worker_group_id
+
+  referenced_security_group_id = local.control_group_id
+  from_port   = 10250
+  ip_protocol = "tcp"
+  to_port     = 10250
+}
+
+resource "aws_vpc_security_group_ingress_rule" "worker_kubelet_self" {
+  security_group_id = local.worker_group_id
+
+  referenced_security_group_id = local.worker_group_id
+  from_port   = 10250
+  ip_protocol = "tcp"
+  to_port     = 10250
+}
+
+resource "aws_vpc_security_group_ingress_rule" "worker_apid" {
+  security_group_id = local.worker_group_id
+
+  referenced_security_group_id = local.control_group_id
+  from_port   = 50000
+  ip_protocol = "tcp"
+  to_port     = 50000
+}
+
+resource "aws_vpc_security_group_ingress_rule" "kubeprism_worker" {
+  security_group_id = local.worker_group_id
+
+  referenced_security_group_id = local.worker_group_id
+  from_port                    = 7445
+  ip_protocol                  = "tcp"
+  to_port                      = 7445
+}
+
+resource "aws_vpc_security_group_egress_rule" "worker_trustd" {
+  security_group_id = local.worker_group_id
+
+  referenced_security_group_id = local.control_group_id
+  from_port   = 50001
+  ip_protocol = "tcp"
+  to_port     = 50001
+}
+
+resource "aws_vpc_security_group_egress_rule" "worker_kube_apiserver" {
+  security_group_id = local.worker_group_id
+
+  referenced_security_group_id = local.control_group_id
+  from_port   = 6443
+  ip_protocol = "tcp"
+  to_port     = 6443
+}
+
+resource "aws_vpc_security_group_egress_rule" "worker_ntp" {
+  security_group_id = local.worker_group_id
+
+  cidr_ipv4 = "0.0.0.0/0"
+  from_port   = 123
+  ip_protocol = "udp"
+  to_port     = 123
+}
+
+resource "aws_vpc_security_group_egress_rule" "worker_https_egress" {
+  security_group_id = local.worker_group_id
+
+  cidr_ipv4 = "0.0.0.0/0"
+  from_port   = 443
+  ip_protocol = "tcp"
+  to_port     = 443
+}
 
 ## Cillium Security Group ##
 
