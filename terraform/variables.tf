@@ -80,6 +80,6 @@ variable "github_org" {
   default = "livnxin"
 }
 
-variable "cloudlfare_tunnel_token" {
+variable "cloudflare_account_id" {
   sensitive = true
 }

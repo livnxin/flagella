@@ -52,9 +52,9 @@ module "talos" {
 }
 
 module "cloudflare" {
-  source = "./kubernetes/cloudflare"
+  source = "./cloudflare"
 
-  cloudlfare_tunnel_token = var.cloudlfare_tunnel_token
+  account_id = var.cloudflare_account_id
 }
 
 module "vpc" {
