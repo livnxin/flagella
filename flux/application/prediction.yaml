@@ -5,14 +5,12 @@ metadata:
   namespace: application
 spec:
   interval: 5m0s
-  chart:
-    spec:
-      chart: ./chart/prediction
-      sourceRef:
-        kind: GitRepository
-        name: flux-system
-        namespace: flux-system
-      reconcileStrategy: Revision
+  chart: ./chart/prediction
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  reconcileStrategy: Revision
 
 ---
 
