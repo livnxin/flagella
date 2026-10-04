@@ -7,18 +7,6 @@ terraform {
   }
 }
 
-resource "kubernetes_secret_v1" "cloudflare_secret" {
-  metadata {
-    name = "cloudflare-tunnel-secret"
-  }
-
-  data = {
-    token = data.cloudflare_zero_trust_tunnel_cloudflared_token.cloudflared_tunnel_token.token
-  }
-
-  type = "opaque"
-}
-
 data "cloudflare_zero_trust_tunnel_cloudflared_token" "cloudflared_tunnel_token" {
   account_id = var.cloudflare_account_id
   tunnel_id  = cloudflare_zero_trust_tunnel_cloudflared.cloudflared_tunnel.id
