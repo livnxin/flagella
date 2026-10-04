@@ -33,6 +33,7 @@ spec:
       {{- end }}
       initContainers:
         - name: {{ .Values.initContainers.name }}
+          image: {{ .Values.initContainers.image }}
           {{- with .Values.initContainers.env }}
           env:
             {{- toYaml . | nindent 12 }}
