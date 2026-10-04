@@ -15,7 +15,7 @@ permissions:
   id-token: write
 
 env:
-  IMAGE_NAME: flagella/prediction
+  IMAGE_NAME: livnxin/flagella-prediction
 
 jobs:
   build-and-push:
