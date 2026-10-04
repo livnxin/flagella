@@ -1,9 +1,15 @@
+module "cloudflare" {
+  source = "./security/cloudflare"
+
+  common_secgroup = local.common_id
+}
+
 resource "aws_instance" "controlplane" {
   ami                    = var.talos_ami_id
   instance_type          = var.instance_type
   subnet_id              = var.control_subnet_id
   key_name               = var.ssh_key_name
-  vpc_security_group_ids = [local.control_group_id, local.cillium_group_id]
+  vpc_security_group_ids = [local.control_group_id, local.cillium_group_id, local.common_id]
 
   root_block_device {
     volume_size = 20
@@ -62,7 +68,7 @@ resource "aws_launch_template" "talos_worker" {
   network_interfaces {
     associate_public_ip_address = true
     security_groups = [
-      local.worker_group_id, local.cillium_group_id
+      local.worker_group_id, local.cillium_group_id, local.common_id
     ]
   }
 
