@@ -2,7 +2,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmChart
 metadata:
   name: prediction
-  namespace: application
+  namespace: flux-system
 spec:
   interval: 5m0s
   chart: ./chart/prediction
@@ -21,6 +21,6 @@ metadata:
 spec:
   chartRef:
     kind: HelmChart
-    name: podinfo
-    namespace: application
+    name: prediction
+    namespace: flux-system
   interval: 5m0s
