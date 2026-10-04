@@ -15,11 +15,10 @@ def tracerInit() :
 
     # Sets the global default tracer provider
     trace.set_tracer_provider(provider)
-
     # Creates a tracer from the global tracer provider
     tracer = trace.get_tracer("my.tracer.name")
-    return tracer
-
     print("tracer initialized")
+    
+    return tracer
 
 tracer = tracerInit()
