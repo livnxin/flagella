@@ -13,3 +13,16 @@ spec:
         name: flux-system
         namespace: flux-system
       reconcileStrategy: Revision
+
+---
+
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: prediction
+spec:
+  chartRef:
+    kind: HelmChart
+    name: podinfo
+    namespace: application
+  interval: 5m0s
