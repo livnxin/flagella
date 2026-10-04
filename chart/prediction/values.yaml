@@ -95,6 +95,6 @@ initContainers:
   image: ghcr.io/kitops-ml/kitops-init:latest
   env:
     - name: MODELKIT_REF
-      value: "your-jozu-hub/your-model:latest"
+      value: "jozu.ml/livnxin/acephale/container:v0.0.1"
     - name: UNPACK_PATH
       value: "/modelkit"
