@@ -16,7 +16,7 @@ resource "kubernetes_secret_v1" "cloudflare_secret" {
     token = data.cloudflare_zero_trust_tunnel_cloudflared_token.cloudflared_tunnel_token.token
   }
 
-  type = "kubernetes.io/basic-auth"
+  type = "opaque"
 }
 
 data "cloudflare_zero_trust_tunnel_cloudflared_token" "cloudflared_tunnel_token" {
