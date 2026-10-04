@@ -51,6 +51,10 @@ provider "flux" {
   }
 }
 
+module "namespace" {
+  source = "./kubernetes/namespace"
+}
+
 module "talos" {
   source = "./aws/talos"
 
@@ -64,6 +68,7 @@ module "cloudflare" {
 
   cloudflare_account_id = var.cloudflare_account_id
   cloudflare_zone_id    = var.cloudflare_zone_id
+  cloudflared_namespace = module.namespace.cloudflare_namespace
 }
 
 module "vpc" {

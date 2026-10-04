@@ -19,7 +19,7 @@ variable "cloudflared_replicas" {
 
 variable "cloudflared_namespace" {
   type    = string
-  default = "cloudflared"
+  default = "cloudflare"
 }
 
 variable "cloudflared_image_tag" {
