@@ -10,12 +10,20 @@ terraform {
       source  = "hashicorp/aws"
       version = "6.62.0"
     }
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 5"
+    }
   }
 
 
 }
 
 provider "aws" {
+}
+
+provider "cloudflare" {
+  api_token = var.cloudflare_api_token
 }
 
 provider "kubernetes" {
@@ -54,7 +62,8 @@ module "talos" {
 module "cloudflare" {
   source = "./cloudflare"
 
-  account_id = var.cloudflare_account_id
+  cloudflare_account_id = var.cloudflare_account_id
+  cloudflare_zone_id    = var.cloudflare_zone_id
 }
 
 module "vpc" {
