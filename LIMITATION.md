@@ -1,3 +1,5 @@
 This project uses a single control plane. For production ready, ideally the control plane should be at least three and is behind cloud Load Balancer or HA Proxy with keepalived and VIP
 
 This project uses grafana cloud free tier. For production I will recommend either using paid tier Grafana or self host LGTM stack with S3 storage backend. Also a scraping interval of 60 seconds is used to lessen the telemetry load.
+
+WHy I use cloudflared tunnel. The primary reason why I use cloudflared tunnel is as an alternative to AWS ALB to save cost. CLoudflared tunnel is available for free tier users and allow to expose kubernetes service without necessarily assigning public IP and port and configuring firewall ingress rules for it. All it needs are firewall egress rules to cloudflare IP addresses which is more secure. Although cloudflared itself is not a load balancer, Kubernetes provides an internal load balancing functionality through its service APi and since my cloudflared lives inside the kubernetes cluster, it can take advantage of kubernetes load balancing feature without necessarily taking additional risk by exposing the service to outside of the cluster. 

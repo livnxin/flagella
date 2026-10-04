@@ -5,4 +5,4 @@ Certain data are better served on OLTP database like PostgreSQL. For this paltfo
 
 I intend to eventually add Tetragon for ebpf based security policy enforcement. ANother similar tools is Falco but I chose tetragon because Tetragon is a kubernetes native tools that leverages ebpf based policy enforcement. The use of ebpf in Tetragon allows enforcement of policy before they reach the kernel.
 
-I intend to use canary deployment for my update strategy rather than blue-green strategy.
+I intend to eventually use canary deployment for my update strategy rather than blue-green strategy.
