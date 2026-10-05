@@ -98,3 +98,18 @@ initContainers:
       value: "jozu.ml/livnxin/acephale/basic:v0.0.1"
     - name: UNPACK_PATH
       value: "/modelkit"
+
+ingress:
+  enabled: true
+  ingressClassName: cilium
+  annotations: {}
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: flagella.livnxin.dev
+      paths:
+        - path: /prediction
+          pathType: Prefix
+  tls: []
+  #  - secretName: livnxin-tls
+  #    hosts:
+  #      - flagella.livnxin.dev
