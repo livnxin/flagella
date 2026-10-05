@@ -55,40 +55,58 @@ resource "aws_vpc_security_group_ingress_rule" "control_self_ingress_tcpv4" {
   security_group_id = local.control_group_id
 
   referenced_security_group_id = local.control_group_id
-  from_port                    = each.key
+  from_port                    = each.value
   ip_protocol                  = "tcp"
-  to_port                      = each.key
-  for_each                     = toset([10250, 10257, 10259, 2379, 2380, 7445, 6443, 50000])
+  to_port                      = each.value
+  for_each = {
+    "kubelet"    = 10250
+    "controller" = 10257
+    "scheduler"  = 10259
+    "etcd1"      = 2379
+    "etcd2"      = 2380
+    "kubeprism"  = 7445
+    "apiserver"  = 6443
+    "apid"       = 50000
+  }
 }
 
 resource "aws_vpc_security_group_ingress_rule" "control_ingress_from_worker_tcpv4" {
   security_group_id = local.control_group_id
 
   referenced_security_group_id = local.worker_group_id
-  from_port                    = each.key
+  from_port                    = each.value
   ip_protocol                  = "tcp"
-  to_port                      = each.key
-  for_each                     = toset([50001, 6443])
+  to_port                      = each.value
+  for_each = {
+    "trustd"         = 50001
+    "kube-apiserver" = 6443
+  }
 }
 
 resource "aws_vpc_security_group_ingress_rule" "kube-apiserver" {
   security_group_id = local.control_group_id
 
   cidr_ipv4   = var.ssh_ingress_cidr
-  from_port   = each.key
+  from_port   = each.value
   ip_protocol = "tcp"
-  to_port     = each.key
-  for_each    = toset([6443, 50000])
+  to_port     = each.value
+  for_each = {
+    "kube-apiserver" = 6443
+    "apid"           = 50000
+  }
 }
 
 resource "aws_vpc_security_group_ingress_rule" "kube-apiserver6" {
   security_group_id = local.control_group_id
 
   cidr_ipv6   = var.ssh_ingress_cidr6
-  from_port   = each.key
+  from_port   = each.value
   ip_protocol = "tcp"
-  to_port     = each.key
-  for_each    = toset([6443, 50000])
+  to_port     = each.value
+  for_each = {
+    "kube-apiserver" = 6443
+    "apid"           = 50000
+  }
 }
 
 resource "aws_vpc_security_group_ingress_rule" "apid_internal" {
@@ -114,26 +132,34 @@ resource "aws_vpc_security_group_ingress_rule" "apid_auto" {
 
   description = "Talos apid to provide for Talosctl access. Based on v1.13 documentation https://docs.siderolabs.com/talos/v1.13/learn-more/talos-network-connectivity"
 }
-## Worker Plane Security Group ##
+# Worker Plane Security Group ##
 
 resource "aws_vpc_security_group_ingress_rule" "worker_self_ingress_tcp" {
   security_group_id = local.worker_group_id
 
   referenced_security_group_id = local.worker_group_id
-  from_port                    = each.key
+  from_port                    = each.value
   ip_protocol                  = "tcp"
-  to_port                      = each.key
-  for_each                     = toset([10250, 7445])
+  to_port                      = each.value
+  for_each = {
+    "kubelet"   = 10250
+    "kubeprism" = 7445
+  }
 }
 
 resource "aws_vpc_security_group_ingress_rule" "worker_tcp_ingress_from_control" {
   security_group_id = local.worker_group_id
 
   referenced_security_group_id = local.control_group_id
-  from_port                    = each.key
+  from_port                    = each.value
   ip_protocol                  = "tcp"
-  to_port                      = each.key
-  for_each                     = toset([10250, 50000, 50001, 6443])
+  to_port                      = each.value
+  for_each = {
+    "kubelet"   = 10250
+    "apid"      = 50000
+    "trustd"    = 50001
+    "apiserver" = 6443
+  }
 }
 
 resource "aws_vpc_security_group_egress_rule" "worker_ntp" {
