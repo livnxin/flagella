@@ -50,7 +50,7 @@ resource "aws_vpc_security_group_ingress_rule" "control_self_ingress_tcpv4" {
   from_port                    = each.value
   ip_protocol                  = "tcp"
   to_port                      = each.value
-  for_each = local.control_self
+  for_each                     = local.control_self
 }
 
 resource "aws_vpc_security_group_egress_rule" "control_self_egress_tcpv4" {
@@ -60,7 +60,7 @@ resource "aws_vpc_security_group_egress_rule" "control_self_egress_tcpv4" {
   from_port                    = each.value
   ip_protocol                  = "tcp"
   to_port                      = each.value
-  for_each = local.control_self
+  for_each                     = local.control_self
 }
 
 resource "aws_vpc_security_group_ingress_rule" "control_ingress_from_worker_tcpv4" {
@@ -70,7 +70,7 @@ resource "aws_vpc_security_group_ingress_rule" "control_ingress_from_worker_tcpv
   from_port                    = each.value
   ip_protocol                  = "tcp"
   to_port                      = each.value
-  for_each = local.worker_to_control
+  for_each                     = local.worker_to_control
 }
 
 resource "aws_vpc_security_group_egress_rule" "control_egress_to_worker_tcpv4" {
@@ -80,7 +80,7 @@ resource "aws_vpc_security_group_egress_rule" "control_egress_to_worker_tcpv4" {
   from_port                    = each.value
   ip_protocol                  = "tcp"
   to_port                      = each.value
-  for_each = local.control_to_worker
+  for_each                     = local.control_to_worker
 }
 
 resource "aws_vpc_security_group_ingress_rule" "ingress_maintainer" {
@@ -140,7 +140,7 @@ resource "aws_vpc_security_group_ingress_rule" "worker_self_ingress_tcp" {
   from_port                    = each.value
   ip_protocol                  = "tcp"
   to_port                      = each.value
-  for_each = local.worker_self
+  for_each                     = local.worker_self
 }
 
 resource "aws_vpc_security_group_egress_rule" "worker_self_egress_tcp" {
@@ -150,7 +150,7 @@ resource "aws_vpc_security_group_egress_rule" "worker_self_egress_tcp" {
   from_port                    = each.value
   ip_protocol                  = "tcp"
   to_port                      = each.value
-  for_each = local.worker_self
+  for_each                     = local.worker_self
 }
 
 resource "aws_vpc_security_group_ingress_rule" "worker_tcp_ingress_from_control" {
@@ -160,7 +160,7 @@ resource "aws_vpc_security_group_ingress_rule" "worker_tcp_ingress_from_control"
   from_port                    = each.value
   ip_protocol                  = "tcp"
   to_port                      = each.value
-  for_each = local.control_to_worker
+  for_each                     = local.control_to_worker
 }
 
 resource "aws_vpc_security_group_egress_rule" "worker_egress_to_control" {
@@ -170,7 +170,7 @@ resource "aws_vpc_security_group_egress_rule" "worker_egress_to_control" {
   from_port                    = each.value
   ip_protocol                  = "tcp"
   to_port                      = each.value
-  for_each = local.worker_to_control
+  for_each                     = local.worker_to_control
 }
 
 ## Common Security Group Rules ##
@@ -182,7 +182,7 @@ resource "aws_vpc_security_group_egress_rule" "common_udp_egress" {
   from_port   = each.value
   ip_protocol = "udp"
   to_port     = each.value
-  for_each = local.common_udp
+  for_each    = local.common_udp
 }
 
 resource "aws_vpc_security_group_egress_rule" "common_udp_egress_v6" {
@@ -192,7 +192,7 @@ resource "aws_vpc_security_group_egress_rule" "common_udp_egress_v6" {
   from_port   = each.value
   ip_protocol = "udp"
   to_port     = each.value
-  for_each = local.common_udp
+  for_each    = local.common_udp
 }
 
 resource "aws_vpc_security_group_egress_rule" "common_tcp_egress" {
@@ -202,7 +202,7 @@ resource "aws_vpc_security_group_egress_rule" "common_tcp_egress" {
   from_port   = each.value
   ip_protocol = "tcp"
   to_port     = each.value
-  for_each = local.common_tcp
+  for_each    = local.common_tcp
 }
 
 resource "aws_vpc_security_group_egress_rule" "common_tcp_egress_v6" {
@@ -212,7 +212,7 @@ resource "aws_vpc_security_group_egress_rule" "common_tcp_egress_v6" {
   from_port   = each.value
   ip_protocol = "tcp"
   to_port     = each.value
-  for_each = local.common_tcp
+  for_each    = local.common_tcp
 }
 
 ## Cillium Security Group ##

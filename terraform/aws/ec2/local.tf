@@ -25,8 +25,8 @@ locals {
     "kube-apiserver" = 6443
   }
   control_to_worker = {
-    "kubelet"   = 10250
-    "apid"      = 50000
+    "kubelet" = 10250
+    "apid"    = 50000
   }
 }
 
@@ -36,7 +36,7 @@ locals {
     "ntp" = 123
   }
   common_tcp = {
-    "dns" = 53
+    "dns"   = 53
     "https" = 443
   }
 }
