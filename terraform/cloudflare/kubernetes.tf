@@ -70,7 +70,7 @@ resource "kubernetes_deployment_v1" "cloudflared_deployment" {
 
 resource "kubernetes_secret_v1" "cloudflare_secret" {
   metadata {
-    name = "cloudflare-tunnel-secret"
+    name      = "cloudflare-tunnel-secret"
     namespace = var.cloudflared_namespace
   }
 

@@ -18,13 +18,12 @@ variable "cloudflared_replicas" {
 }
 
 variable "cloudflared_namespace" {
-  type    = string
-  default = "cloudflare"
+  type = string
 }
 
 variable "cloudflared_image_tag" {
   type        = string
-  description = "cloudflared image tag. Pin a version instead of using latest."
+  description = "cloudflared image tag"
   default     = "latest"
 }
 
