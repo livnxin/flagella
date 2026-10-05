@@ -120,8 +120,6 @@ resource "aws_vpc_security_group_ingress_rule" "apid_internal" {
   description = "Talos apid to provide for Talosctl access. Based on v1.13 documentation https://docs.siderolabs.com/talos/v1.13/learn-more/talos-network-connectivity"
 }
 
-
-
 resource "aws_vpc_security_group_ingress_rule" "apid_auto" {
   security_group_id = local.control_group_id
 
@@ -132,7 +130,8 @@ resource "aws_vpc_security_group_ingress_rule" "apid_auto" {
 
   description = "Talos apid to provide for Talosctl access. Based on v1.13 documentation https://docs.siderolabs.com/talos/v1.13/learn-more/talos-network-connectivity"
 }
-# Worker Plane Security Group ##
+
+## Worker Plane Security Group ##
 
 resource "aws_vpc_security_group_ingress_rule" "worker_self_ingress_tcp" {
   security_group_id = local.worker_group_id

@@ -8,6 +8,7 @@ on:
     paths:
       - 'service/prediction/**'
       - 'service/prediction/Dockerfile'
+      - '.github/workflows/prediction.yml'
 
 permissions:
   contents: read
@@ -51,6 +52,7 @@ jobs:
             type=sha
 
       - name: Build and push
+        id: build
         uses: docker/build-push-action@v7
         with:
           context: service/prediction
@@ -66,4 +68,4 @@ jobs:
           COSIGN_EXPERIMENTAL: "1"
         run: |
           cosign sign --yes \
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
+            ${{ env.IMAGE_NAME }}@${{ steps.build.outputs.digest }}
