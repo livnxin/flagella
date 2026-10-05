@@ -36,13 +36,6 @@ resource "aws_security_group" "cillium_nodes" {
 
 ## Control Plane Security Group ##
 
-resource "aws_vpc_security_group_egress_rule" "egress_all" {
-  security_group_id = local.control_group_id
-
-  cidr_ipv4   = "0.0.0.0/0"
-  ip_protocol = "-1"
-}
-
 resource "aws_vpc_security_group_ingress_rule" "control_self_ingress_tcpv4" {
   security_group_id = local.control_group_id
 
