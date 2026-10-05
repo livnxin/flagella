@@ -201,58 +201,24 @@ resource "aws_vpc_security_group_ingress_rule" "apid_master6" {
 }
 ## Worker Plane Security Group ##
 
-resource "aws_vpc_security_group_ingress_rule" "worker_kubelet_control" {
-  security_group_id = local.worker_group_id
-
-  referenced_security_group_id = local.control_group_id
-  from_port                    = 10250
-  ip_protocol                  = "tcp"
-  to_port                      = 10250
-}
-
-resource "aws_vpc_security_group_ingress_rule" "worker_kubelet_self" {
+resource "aws_vpc_security_group_ingress_rule" "worker_self_ingress_tcp" {
   security_group_id = local.worker_group_id
 
   referenced_security_group_id = local.worker_group_id
-  from_port                    = 10250
+  from_port                    = each.key
   ip_protocol                  = "tcp"
-  to_port                      = 10250
+  to_port                      = each.key
+  for_each                     = toset([10250, 7445])
 }
 
-resource "aws_vpc_security_group_ingress_rule" "worker_apid" {
+resource "aws_vpc_security_group_ingress_rule" "worker_tcp_ingress_from_control" {
   security_group_id = local.worker_group_id
 
   referenced_security_group_id = local.control_group_id
-  from_port                    = 50000
+  from_port                    = each.key
   ip_protocol                  = "tcp"
-  to_port                      = 50000
-}
-
-resource "aws_vpc_security_group_ingress_rule" "kubeprism_worker" {
-  security_group_id = local.worker_group_id
-
-  referenced_security_group_id = local.worker_group_id
-  from_port                    = 7445
-  ip_protocol                  = "tcp"
-  to_port                      = 7445
-}
-
-resource "aws_vpc_security_group_egress_rule" "worker_trustd" {
-  security_group_id = local.worker_group_id
-
-  referenced_security_group_id = local.control_group_id
-  from_port                    = 50001
-  ip_protocol                  = "tcp"
-  to_port                      = 50001
-}
-
-resource "aws_vpc_security_group_egress_rule" "worker_kube_apiserver" {
-  security_group_id = local.worker_group_id
-
-  referenced_security_group_id = local.control_group_id
-  from_port                    = 6443
-  ip_protocol                  = "tcp"
-  to_port                      = 6443
+  to_port                      = each.key
+  for_each                     = toset([10250, 50000, 50001, 6443])
 }
 
 resource "aws_vpc_security_group_egress_rule" "worker_ntp" {
