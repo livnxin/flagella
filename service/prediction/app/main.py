@@ -1,10 +1,10 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from keras.saving import load_model
-from service.prediction.app.utils import predict
+from utils import predict
 from prometheus_fastapi_instrumentator import Instrumentator
 from prometheus_client import make_asgi_app
-from service.prediction.app.tracing import tracer
+from tracing import tracer
 from opentelemetry import trace
 from opentelemetry.semconv.trace import SpanAttributes
 
