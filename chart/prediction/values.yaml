@@ -99,9 +99,9 @@ initContainers:
     - name: UNPACK_PATH
       value: "/code/modelkit"
 
-ingress:
+gateway:
   enabled: true
-  ingressClassName: cilium
+  gatewayClassName: cilium
   annotations: {}
     # kubernetes.io/tls-acme: "true"
   hosts:
