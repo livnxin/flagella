@@ -25,7 +25,7 @@ resource "cloudflare_zero_trust_tunnel_cloudflared_config" "cloudflared_tunnel_c
     ingress = [
       {
         hostname = "flagella.${var.cloudflare_zone}"
-        service  = "http://cilium-ingress.kube-system.svc.cluster.local:80"
+        service  = "http://cilium-gateway-prediction.application.svc.cluster.local:80"
       },
       {
         service = "http_status:404"
