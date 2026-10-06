@@ -5,7 +5,8 @@ from opentelemetry.sdk.trace.export import (
     ConsoleSpanExporter,
 )
 
-def tracerInit() :
+
+def tracerInit():
 
     print("Initializing tracing")
 
@@ -18,7 +19,8 @@ def tracerInit() :
     # Creates a tracer from the global tracer provider
     tracer = trace.get_tracer("my.tracer.name")
     print("tracer initialized")
-    
+
     return tracer
+
 
 tracer = tracerInit()
