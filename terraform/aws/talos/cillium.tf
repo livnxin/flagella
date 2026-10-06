@@ -79,6 +79,10 @@ data "helm_template" "cilium" {
     {
       name  = "hubble.ui.enabled"
       value = "true"
+    },
+    {
+      name = "gatewayAPI.enabled"
+      value = "true"
     }
   ]
 }
