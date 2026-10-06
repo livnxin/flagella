@@ -8,6 +8,16 @@ spec:
   hostnames:
   - "flagella.livnxin.dev"
   rules:
-  - backendRefs:
-    - name: {{ include "prediction.fullname" . }}
-      port: 80
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /prediction
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+      - name: {{ include "prediction.fullname" . }}
+        port: 80
