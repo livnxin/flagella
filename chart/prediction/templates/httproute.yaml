@@ -10,6 +10,13 @@ spec:
   rules:
     - matches:
         - path:
+            type: Exact
+            value: /prediction/openapi.json
+      backendRefs:
+        - name: {{ include "prediction.fullname" . }}
+          port: 80
+    - matches:
+        - path:
             type: PathPrefix
             value: /prediction
       filters:
@@ -19,5 +26,5 @@ spec:
               type: ReplacePrefixMatch
               replacePrefixMatch: /
       backendRefs:
-      - name: {{ include "prediction.fullname" . }}
-        port: 80
+        - name: {{ include "prediction.fullname" . }}
+          port: 80

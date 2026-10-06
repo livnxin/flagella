@@ -13,7 +13,9 @@ print("Loading model")
 model = load_model("./modelkit/data/model.keras")
 print("Model loaded")
 
-app = FastAPI()
+app = FastAPI(
+    openapi_url = "/prediction/openapi.json"
+)
 Instrumentator().instrument(app).expose(app)
 
 metrics_app = make_asgi_app()
