@@ -82,7 +82,7 @@ volumes:
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts:
     - name: modelkit-storage
-      mountPath: "/modelkit"
+      mountPath: "/code/modelkit"
 
 nodeSelector: {}
 
@@ -97,7 +97,7 @@ initContainers:
     - name: MODELKIT_REF
       value: "jozu.ml/livnxin/acephale:v0.0.1"
     - name: UNPACK_PATH
-      value: "/modelkit"
+      value: "/code/modelkit"
 
 ingress:
   enabled: true
@@ -107,7 +107,7 @@ ingress:
   hosts:
     - host: flagella.livnxin.dev
       paths:
-        - path: /prediction
+        - path: /prediction/
           pathType: Prefix
   tls: []
   #  - secretName: livnxin-tls
