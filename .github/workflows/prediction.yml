@@ -24,6 +24,7 @@ jobs:
 
     outputs:
       digest: ${{ steps.build.outputs.digest }}
+      image_tag: ${{ steps.meta.outputs.tags }}
 
     steps:
       - name: Checkout
@@ -93,7 +94,7 @@ jobs:
           COSIGN_EXPERIMENTAL: "1"
         run: |
           cosign sign --yes \
-            ${{ env.IMAGE_NAME }}@${{ needs.build.outputs.digest }}
+            ${{ env.IMAGE_NAME }}@${{ needs.build.outputs.image_tag }}
 
   trivy:
     runs-on: ubuntu-latest
