@@ -1,0 +1,52 @@
+name: Build and Publish model container
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'model/**'
+      - 'service/prediction/Dockerfile'
+      - '.github/workflows/model.yml'
+
+env:
+  IMAGE_NAME: livnxin/acephale
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          sparse-checkout: |
+            model/
+          sparse-checkout-cone-mode: true
+
+      - name: Write commit-scoped model tag 
+        env:
+            GITHUB_SHA: ${{ github.sha }}
+        run: |
+          cat > src/model/tag.py <<EOF
+          modelkit_tag = "jozu.ml/livnxin/acephale:${GITHUB_SHA}"
+          EOF
+          cat src/model/tag.py
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Run model
+        env:
+            JOZU_USERNAME: ${{ secrets.JOZU_USERNAME }}
+            JOZU_PASSWORD: ${{ secrets.JOZU_PASSWORD }}
+            JOZU_NAMESPACE: ${{ secrets.JOZU_NAMESPACE }}
+        run: uv run model

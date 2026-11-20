@@ -9,6 +9,7 @@ from kitops.modelkit.manager import ModelKitManager
 from kitops.modelkit.user import UserCredentials
 from kitops.cli import kit
 from .variables import *
+from .tag import *
 import joblib
 import os
 
