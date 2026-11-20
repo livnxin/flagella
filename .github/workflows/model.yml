@@ -48,3 +48,37 @@ jobs:
             JOZU_PASSWORD: ${{ secrets.JOZU_PASSWORD }}
             JOZU_NAMESPACE: ${{ secrets.JOZU_NAMESPACE }}
         run: uv run model
+
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: [publish]
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          sparse-checkout: |
+            chart/
+          sparse-checkout-cone-mode: true
+
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq \
+            https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Update ModelKit tag
+        run: |
+          SHA="${{ github.sha }}"
+          yq e '(.initContainers.env[] | select(.name == "MODELKIT_REF").value) = "jozu.ml/livnxin/acephale:" + strenv(SHA)' -i chart/prediction/values.yaml
+
+      - name: Commit and push
+        run: |
+          git config user.name "gitops-bot"
+          git config user.email "gitops-bot@livnxin.dev"
+
+          git add chart/prediction
+          git commit -m "${{ env.IMAGE_NAME }}: deploy tag ${{ github.sha }} "
+          git push origin main
