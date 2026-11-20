@@ -36,6 +36,12 @@ COPY --from=builder /code/.venv /code/.venv
 # Copy your application source code
 COPY ./app /code/app
 
+# Remove pip and its vendored dependencies by deleting the files
+RUN rm -rf /usr/local/lib/python3.13/site-packages/pip \
+    /usr/local/lib/python3.13/site-packages/pip-*.dist-info \
+    /usr/local/lib/python3.13/site-packages/README.txt \
+    /usr/local/lib/python3.13/ensurepip
+
 # Create and switch to a non-root user for security
 RUN useradd -m appuser && chown -R appuser:appuser /code
 USER appuser
