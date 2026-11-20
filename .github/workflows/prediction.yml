@@ -10,17 +10,14 @@ on:
       - 'service/prediction/Dockerfile'
       - '.github/workflows/prediction.yml'
 
-permissions:
-  contents: read
-  packages: write
-  id-token: write
-
 env:
   IMAGE_NAME: livnxin/flagella-prediction
 
 jobs:
   security:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout
@@ -29,9 +26,6 @@ jobs:
           sparse-checkout: |
             service/prediction
           sparse-checkout-cone-mode: true
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -66,6 +60,9 @@ jobs:
 
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     needs: [security]
     steps:
 
@@ -75,9 +72,6 @@ jobs:
           sparse-checkout: |
             service/prediction
           sparse-checkout-cone-mode: true
-
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
@@ -104,3 +98,36 @@ jobs:
 
       - name: Sign image by digest
         run: cosign sign --yes ${{ env.IMAGE_NAME }}@${{ steps.push.outputs.digest }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    needs: [security, publish]
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          sparse-checkout: |
+            chart/
+          sparse-checkout-cone-mode: true
+
+      - name: Install yq
+        run: |
+          sudo wget -qO /usr/local/bin/yq \
+            https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Update prod image tag
+        run: |
+          yq e '.image.tag = "${{ github.sha }}"' -i chart/prediction/values.yaml
+
+      - name: Commit and push
+        run: |
+          git config user.name "gitops-bot"
+          git config user.email "gitops-bot@livnxin.dev"
+
+          git add chart/prediction
+          git commit -m "${{ env.IMAGE_NAME }}: deploy tag ${{ github.sha }} "
+          git push origin main
