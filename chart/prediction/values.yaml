@@ -4,38 +4,34 @@
 
 # This will set the replicaset count more information can be found here: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
 replicaCount: 1
-
 # This sets the container image more information can be found here: https://kubernetes.io/docs/concepts/containers/images/
 image:
   repository: livnxin/flagella-prediction
   # This sets the pull policy for images.
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest"
-
+  tag: "5b65d46428b564eb7af9504e26e7da3c2ad9c99a"
 # This is for the secrets for pulling an image from a private repository more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
 imagePullSecrets: []
 # This is to override the chart name.
 nameOverride: ""
 fullnameOverride: ""
-
 # This is for setting Kubernetes Annotations to a Pod.
 # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/
 podAnnotations: {}
 # This is for setting Kubernetes Labels to a Pod.
 # For more information checkout: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 podLabels: {}
-
 podSecurityContext: {}
-  # fsGroup: 2000
+# fsGroup: 2000
 
 securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+# capabilities:
+#   drop:
+#   - ALL
+# readOnlyRootFilesystem: true
+# runAsNonRoot: true
+# runAsUser: 1000
 
 # This is for setting up a service more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/
 service:
@@ -44,8 +40,7 @@ service:
   # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
   targetPort: 8000
   port: 80
-
-resources: 
+resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
   # resources, such as Minikube. If you do want to specify resources, uncomment the following
@@ -56,7 +51,6 @@ resources:
   requests:
     cpu: 250m
     memory: 256Mi
-
 # This section is for setting up autoscaling more information can be found here: https://kubernetes.io/docs/concepts/workloads/autoscaling/
 autoscaling:
   enabled: true
@@ -64,7 +58,6 @@ autoscaling:
   maxReplicas: 3
   targetCPUUtilizationPercentage: 80
   # targetMemoryUtilizationPercentage: 80
-
 # This is to setup the liveness and readiness probes more information can be found here: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
 # livenessProbe:
 #   httpGet:
@@ -79,18 +72,13 @@ autoscaling:
 volumes:
   - name: modelkit-storage
     emptyDir: {}
-
 # Additional volumeMounts on the output Deployment definition.
 volumeMounts:
-    - name: modelkit-storage
-      mountPath: "/code/modelkit"
-
+  - name: modelkit-storage
+    mountPath: "/code/modelkit"
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}
-
 initContainers:
   name: kitops-init-prediction
   image: ghcr.io/kitops-ml/kitops-init:latest
@@ -99,12 +87,11 @@ initContainers:
       value: "jozu.ml/livnxin/acephale:v0.0.1"
     - name: UNPACK_PATH
       value: "/code/modelkit"
-
 gateway:
   enabled: true
   gatewayClassName: cilium
   annotations: {}
-    # kubernetes.io/tls-acme: "true"
+  # kubernetes.io/tls-acme: "true"
   hosts:
     - host: flagella.livnxin.dev
       paths:
