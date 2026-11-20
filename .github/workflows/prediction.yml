@@ -119,7 +119,7 @@ jobs:
             https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
           sudo chmod +x /usr/local/bin/yq
 
-      - name: Update prod image tag
+      - name: Update image tag
         run: |
           yq e '.image.tag = "${{ github.sha }}"' -i chart/prediction/values.yaml
 
